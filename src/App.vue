@@ -5,7 +5,6 @@ export default {
     data() {
         return {
             pokemons: store.pokemons
-
         }
     },
     methods: {
@@ -13,7 +12,10 @@ export default {
             axios.get('https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?eq[type1]=Electric&sort[number]=desc').then(
                 (res) => {
                     console.log(res.data)
-                    this.pokemons.push(res.data.docs)
+                    res.data.docs.forEach(doc => {
+                        this.pokemons.push(doc)
+                    });
+                    console.table(this.pokemons)
                 }
             )
         }
@@ -26,62 +28,15 @@ export default {
 
 <template>
     <div class="container">
-        <main>
-            <div class="row">
-                <div class="col-2">
-                    <h1>
-                        CIAOOOOO
-                    </h1>
-                </div>
-                <div class="col-2">
-                    <h1>
-                        CIAOOOOO
-                    </h1>
-                </div>
-                <div class="col-2">
-                    <h1>
-                        CIAOOOOO
-                    </h1>
-                </div>
-                <div class="col-2">
-                    <h1>
-                        CIAOOOOO
-                    </h1>
-                </div>
-                <div class="col-2">
-                    <h1>
-                        CIAOOOOO
-                    </h1>
-                </div>
-                <div class="col-2">
-                    <h1>
-                        CIAOOOOO
-                    </h1>
-                </div>
-                <div class="col-2">
-                    <h1>
-                        CIAOOOOO
-                    </h1>
-                </div>
-                <div class="col-2">
-                    <h1>
-                        CIAOOOOO
-                    </h1>
-                </div>
-                <div class="col-2">
-                    <h1>
-                        CIAOOOOO
-                    </h1>
-                </div>
-                <div class="col-2">
-                    <h1>
-                        CIAOOOOO
-                    </h1>
-                </div>
-                <div class="col-2">
-                    <h1>
-                        CIAOOOOO
-                    </h1>
+        <main class="border border-info">
+            <div class="row justify-content-center">
+                <div v-for="pokemon in pokemons" class="col-1">
+                    <div class="card">
+                        <div>
+                            {{ pokemon.code }}
+                        </div>
+                        <h4>{{ pokemon.name }}</h4>
+                    </div>
                 </div>
             </div>
         </main>
@@ -89,5 +44,9 @@ export default {
 </template>
 
 <style lang="scss">
-@use './assets/scss/style.scss'
+@use './assets/scss/style.scss';
+
+.card {
+    width: 100px;
+}
 </style>
