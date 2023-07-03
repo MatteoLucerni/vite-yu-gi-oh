@@ -2,6 +2,10 @@
 
 </script>
 
-<template></template>
+<template>
+    <h1>CIAOOOOOO</h1>
+</template>
 
-<style></style>
+<style lang="scss">
+@use './assets/scss/style.scss'
+</style>
