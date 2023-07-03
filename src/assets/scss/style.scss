@@ -1,5 +1,21 @@
 @import 'bootstrap/scss/bootstrap';
 
-h1 {
-  color: red;
+body {
+  padding-top: 50px;
+}
+
+.col-1 {
+  padding: 30px;
+}
+
+.card {
+  width: calc(100% / 5);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+img {
+  max-width: 100%;
 }
