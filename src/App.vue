@@ -12,13 +12,14 @@ export default {
     data() {
         return {
             pokemons: store.pokemons,
+            pokemonTypes: store.pokemonTypes,
             isLoaded: false
         }
     },
     methods: {
         fetchPokemons() {
             axios.get('https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?eq[type1]=Electric&sort[number]=desc').then(
-                (res) => {
+                res => {
                     res.data.docs.forEach(doc => {
                         this.pokemons.push(
                             {
@@ -29,14 +30,25 @@ export default {
                             }
                         )
                     });
-                    if (this.pokemons.length === 10) this.isLoaded = true;
+                    if (this.pokemons.length >= 10) this.isLoaded = true;
                 }
             )
 
+        },
+        fetchType() {
+            axios.get('https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons/types1').then(
+                res => {
+                    console.log(res.data)
+                    this.pokemonTypes.forEach(type => {
+                        this.pokemonTypes.push(type)
+                    })
+                }
+            )
         }
     },
     created() {
         this.fetchPokemons()
+        this.fetchType()
     }
 }
 
@@ -46,6 +58,7 @@ export default {
     <h1 class="text-center text-white pt-4">POKEDEX</h1>
     <div class="main-container d-flex justify-content-center">
         <main>
+            <img class="poke-image" src="./assets/img/background-pokedex.jpg" alt="">
             <div class="cards-container d-flex justify-content-center flex-wrap">
                 <AppLoader :isLoaded="isLoaded" />
                 <div v-for="pokemon in pokemons" :key="pokemon.number" class="card">
@@ -53,7 +66,18 @@ export default {
                         :type="pokemon.type1" />
                 </div>
             </div>
-            <img class="poke-image" src="./assets/img/background-pokedex.jpg" alt="">
+            <h3 class="text-white mt-3">Filtra per tipo:</h3>
+            <select class="form-select">
+                <option selected value="1">Tutti i tipi</option>
+                <option value="1">ciao</option>
+                <option value="1">ciao</option>
+                <option value="1">ciao</option>
+                <option value="1">ciao</option>
+                <option value="1">ciao</option>
+                <option value="1">ciao</option>
+                <option value="1">ciao</option>
+
+            </select>
         </main>
     </div>
 </template>
