@@ -18,7 +18,7 @@ export default {
             pokemons: store.pokemons,
             pokemonTypes: store.pokemonTypes,
             isLoaded: false,
-            endpoint: 'sort[number]=asc',
+            endpoint: '',
             hasPrev: false,
             hasNext: false,
             userFilter: ''
@@ -31,12 +31,12 @@ export default {
             this.pokemons = [];
 
             //tipi di endpoints
-            const filteredEndpoint = `eq[type1]=${value}&sort[number]=asc`
+            const filteredEndpoint = `&eq[type1]=${value}`
 
             const currentEndpoint = value === '--' ? this.endpoint : filteredEndpoint
 
             // chiamata
-            axios.get(`https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?${currentEndpoint}`).then(
+            axios.get(`https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?sort[number]=asc${currentEndpoint}`).then(
                 res => {
                     console.log(res.data)
                     store.pages.prev = res.data.prevPage
@@ -74,15 +74,15 @@ export default {
         },
         // fetchNewPage(key) {                                         ?? non funziona ??
         //     console.log(store.pages[key])
-        //     this.endpoint = `sort[number]=asc&page=${store.pages[key]}`
+        //     this.endpoint = `&page=${store.pages[key]}`
         //     this.fetchPokemons(store.selectedType)
         // },
         fetchNextPage() {
-            this.endpoint = `sort[number]=asc&page=${store.pages.next}`
+            this.endpoint = `&page=${store.pages.next}`
             this.fetchPokemons(store.selectedType)
         },
         fetchPrevPage() {
-            this.endpoint = `sort[number]=asc&page=${store.pages.prev}`
+            this.endpoint = `&page=${store.pages.prev}`
             this.fetchPokemons(store.selectedType)
         }
     },
@@ -98,7 +98,7 @@ export default {
     <h1 class="text-center text-white pt-4">POKEDEX</h1>
     <div class="main-container d-flex justify-content-center">
         <main>
-            <img class="poke-image" src="./assets/img/background-pokedex.jpg" alt="">
+            <img class="poke-image" src="./assets/img/background-pokedex.jpg" alt="pokedex background">
             <div class="cards-container d-flex justify-content-center flex-wrap">
                 <AppLoader :isLoaded="isLoaded" />
                 <div v-for="pokemon in pokemons" :key="pokemon.number" class="card">
