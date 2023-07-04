@@ -15,12 +15,18 @@ export default {
         return {
             pokemons: store.pokemons,
             pokemonTypes: store.pokemonTypes,
-            isLoaded: true
+            isLoaded: false,
         }
     },
     methods: {
-        fetchPokemons() {
-            axios.get('https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?eq[type1]=Electric&sort[number]=desc').then(
+        fetchPokemons(value) {
+            this.isLoaded = false
+            this.pokemons = [];
+            const endpoint = 'https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?sort[number]=desc';
+            const filteredEndpoint = `https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?eq[type1]=${value}&sort[number]=desc`
+
+            const currentEndpoint = value === '--' ? endpoint : filteredEndpoint
+            axios.get(currentEndpoint).then(
                 res => {
                     res.data.docs.forEach(doc => {
                         this.pokemons.push(
@@ -46,28 +52,9 @@ export default {
                 }
             )
         },
-        changeFilter(value) {
-            console.log(value)
-            this.pokemons = []
-            axios.get(`https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?eq[type1]=${value}&sort[number]=desc`).then(
-                res => {
-                    res.data.docs.forEach(doc => {
-                        this.pokemons.push(
-                            {
-                                number: doc.number,
-                                name: doc.name,
-                                type1: doc.type1,
-                                imageUrl: doc.imageUrl
-                            }
-                        )
-                    });
-                    if (this.pokemons.length >= 1) this.isLoaded = true;
-                }
-            )
-        }
     },
     created() {
-        this.fetchPokemons()
+        this.fetchPokemons(store.selectedType)
         this.fetchType()
     }
 }
@@ -87,7 +74,7 @@ export default {
                 </div>
             </div>
             <h3 class="text-white mt-3">Filtra per tipo:</h3>
-            <AppSelect :pokemonTypes="pokemonTypes" @changedFilter="changeFilter" />
+            <AppSelect :pokemonTypes="pokemonTypes" @changedFilter="fetchPokemons" />
         </main>
     </div>
 </template>
