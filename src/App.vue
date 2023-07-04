@@ -1,6 +1,7 @@
 <script>
 import AppCard from './components/AppCard.vue'
 import AppLoader from './components/AppLoader.vue'
+import AppSelect from './components/AppSelect.vue'
 import axios from 'axios';
 import { store } from './data/store'
 
@@ -8,17 +9,18 @@ export default {
     components: {
         AppCard,
         AppLoader,
+        AppSelect
     },
     data() {
         return {
             pokemons: store.pokemons,
             pokemonTypes: store.pokemonTypes,
-            isLoaded: false
+            isLoaded: true
         }
     },
     methods: {
         fetchPokemons() {
-            axios.get('https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?sort[number]=desc').then(
+            axios.get('https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?eq[type1]=Electric&sort[number]=desc').then(
                 res => {
                     res.data.docs.forEach(doc => {
                         this.pokemons.push(
@@ -38,10 +40,28 @@ export default {
         fetchType() {
             axios.get('https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons/types1').then(
                 res => {
-                    console.log(res.data)
                     res.data.forEach(type => {
                         this.pokemonTypes.push(type)
                     })
+                }
+            )
+        },
+        changeFilter(value) {
+            console.log(value)
+            this.pokemons = []
+            axios.get(`https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?eq[type1]=${value}&sort[number]=desc`).then(
+                res => {
+                    res.data.docs.forEach(doc => {
+                        this.pokemons.push(
+                            {
+                                number: doc.number,
+                                name: doc.name,
+                                type1: doc.type1,
+                                imageUrl: doc.imageUrl
+                            }
+                        )
+                    });
+                    if (this.pokemons.length >= 1) this.isLoaded = true;
                 }
             )
         }
@@ -67,11 +87,7 @@ export default {
                 </div>
             </div>
             <h3 class="text-white mt-3">Filtra per tipo:</h3>
-            <select class="form-select">
-                <option selected value="1">Tutti i tipi</option>
-                <option v-for="pokemonType in pokemonTypes">{{ pokemonType }}</option>
-
-            </select>
+            <AppSelect :pokemonTypes="pokemonTypes" @changedFilter="changeFilter" />
         </main>
     </div>
 </template>
