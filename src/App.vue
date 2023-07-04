@@ -1,9 +1,36 @@
 <script>
-import AppCards from './components/AppCards.vue'
+import AppCard from './components/AppCard.vue'
+import axios from 'axios';
+import { store } from './data/store'
 
 export default {
     components: {
-        AppCards
+        AppCard
+    },
+    data() {
+        return {
+            pokemons: store.pokemons,
+            isLoaded: false
+        }
+    },
+    methods: {
+        getPokemons() {
+            axios.get('https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?eq[type1]=Electric&sort[number]=desc').then(
+                (res) => {
+                    console.log(res.data)
+                    res.data.docs.forEach(doc => {
+                        this.pokemons.push(doc)
+                    });
+                    console.table(this.pokemons)
+                    console.log(this.pokemons.length)
+                    if (this.pokemons.length === 10) this.isLoaded = true;
+                }
+            )
+
+        }
+    },
+    created() {
+        this.getPokemons()
     }
 }
 
@@ -14,7 +41,13 @@ export default {
     <div class="main-container d-flex justify-content-center">
         <main>
             <div class="cards-container d-flex justify-content-center flex-wrap">
-                <AppCards />
+                <h1 v-if="isLoaded === false" class="text-white">
+                    Loading...
+                </h1>
+                <div v-else v-for="pokemon in pokemons" :key="pokemon.number" class="card">
+                    <AppCard :number="pokemon.number" :imageUrl="pokemon.imageUrl" :name="pokemon.name"
+                        :type="pokemon.type1" />
+                </div>
             </div>
             <img class="poke-image" src="./assets/img/background-pokedex.jpg" alt="">
         </main>
