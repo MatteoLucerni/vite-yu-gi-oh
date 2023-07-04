@@ -20,15 +20,21 @@ export default {
     },
     methods: {
         fetchPokemons(value) {
+            // reset
             this.isLoaded = false
             this.pokemons = [];
+
+            //tipi di endpoints
             const endpoint = 'https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?sort[number]=desc';
             const filteredEndpoint = `https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?eq[type1]=${value}&sort[number]=desc`
 
             const currentEndpoint = value === '--' ? endpoint : filteredEndpoint
+
+            // chiamata
             axios.get(currentEndpoint).then(
                 res => {
                     res.data.docs.forEach(doc => {
+                        // estrazione solo valori necessari
                         this.pokemons.push(
                             {
                                 number: doc.number,
@@ -38,6 +44,7 @@ export default {
                             }
                         )
                     });
+                    // rimozione loader
                     if (this.pokemons.length >= 10) this.isLoaded = true;
                 }
             )
