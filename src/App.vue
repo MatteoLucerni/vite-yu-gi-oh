@@ -39,13 +39,14 @@ export default {
             // chiamata
             axios.get(`https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?sort[number]=asc${currentEndpoint}`).then(
                 res => {
-                    console.log(res.data)
+                    // imposto i valore dinamici
                     store.pages.prev = res.data.prevPage
                     store.pages.next = res.data.nextPage
 
                     this.hasNext = !!res.data.hasNextPage
                     this.hasPrev = !!res.data.hasPrevPage
 
+                    // creo l'array pokemon riempiendolo di oggetti
                     res.data.docs.forEach(doc => {
 
                         // estrazione solo valori necessari
@@ -64,6 +65,7 @@ export default {
             )
 
         },
+        // lista ti tipi
         fetchType() {
             axios.get('https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons/types1').then(
                 res => {
@@ -86,10 +88,10 @@ export default {
             this.endpoint = `&page=${store.pages.prev}`
             this.fetchPokemons(store.selectedType)
         },
+        // textFilter Endpoint
         fetchByName(value) {
             this.endpoint = `&q[name]=${value}`
             this.fetchPokemons(store.selectedType)
-            console.log('used end: ' + value)
         }
     },
     created() {
@@ -106,17 +108,22 @@ export default {
         <main>
             <img class="poke-image" src="./assets/img/background-pokedex.jpg" alt="pokedex background">
             <div class="cards-container d-flex justify-content-center flex-wrap">
+                <!-- Loader -->
                 <AppLoader :isLoaded="isLoaded" />
                 <div v-for="pokemon in pokemons" :key="pokemon.number" class="card">
+                    <!-- Cards -->
                     <AppCard :number="pokemon.number" :imageUrl="pokemon.imageUrl" :name="pokemon.name"
                         :type="pokemon.type1" />
                 </div>
             </div>
+            <!-- Filtro select per tipo -->
             <h3 class="text-white mt-3">Filtra per tipo:</h3>
             <AppSelect :pokemonTypes="pokemonTypes" @changedFilter="fetchPokemons" />
+            <!-- Pulsanti cambio pagina -->
             <h3 class="text-white text-center mt-3">Cambia pagina:</h3>
             <AppPageChanger @changedPageNext="fetchNextPage" @changedPagePrev="fetchPrevPage" :hasNext="hasNext"
                 :hasPrev="hasPrev" />
+            <!-- filtro con input text -->
             <AppSearchFilter @modifiedFilter="fetchByName" />
         </main>
     </div>
