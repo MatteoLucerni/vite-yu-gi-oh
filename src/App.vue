@@ -10,11 +10,13 @@ export default {
 </script>
 
 <template>
-    <div class="container">
-        <main class="border border-info p-5">
-            <div class="d-flex justify-content-center flex-wrap">
+    <h1 class="text-center text-white pt-4">POKEDEX</h1>
+    <div class="main-container d-flex justify-content-center">
+        <main>
+            <div class="cards-container d-flex justify-content-center flex-wrap">
                 <AppCards />
             </div>
+            <img class="poke-image" src="./assets/img/background-pokedex.jpg" alt="">
         </main>
     </div>
 </template>
