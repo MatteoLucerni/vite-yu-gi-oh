@@ -16,7 +16,7 @@ export default {
         }
     },
     methods: {
-        getPokemons() {
+        fetchPokemons() {
             axios.get('https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?eq[type1]=Electric&sort[number]=desc').then(
                 (res) => {
                     res.data.docs.forEach(doc => {
