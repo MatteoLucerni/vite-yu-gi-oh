@@ -20,7 +20,8 @@ export default {
             isLoaded: false,
             endpoint: 'sort[number]=asc',
             hasPrev: false,
-            hasNext: false
+            hasNext: false,
+            userFilter: ''
         }
     },
     methods: {
@@ -41,8 +42,8 @@ export default {
                     store.pages.prev = res.data.prevPage
                     store.pages.next = res.data.nextPage
 
-                    this.hasNext = res.data.hasNextPage ? true : false
-                    this.hasPrev = res.data.hasPrevPage ? true : false
+                    this.hasNext = !!res.data.hasNextPage
+                    this.hasPrev = !!res.data.hasPrevPage
 
                     res.data.docs.forEach(doc => {
 
