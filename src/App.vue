@@ -18,7 +18,7 @@ export default {
     },
     methods: {
         fetchPokemons() {
-            axios.get('https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?eq[type1]=Electric&sort[number]=desc').then(
+            axios.get('https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?sort[number]=desc').then(
                 res => {
                     res.data.docs.forEach(doc => {
                         this.pokemons.push(
@@ -39,7 +39,7 @@ export default {
             axios.get('https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons/types1').then(
                 res => {
                     console.log(res.data)
-                    this.pokemonTypes.forEach(type => {
+                    res.data.forEach(type => {
                         this.pokemonTypes.push(type)
                     })
                 }
@@ -69,13 +69,7 @@ export default {
             <h3 class="text-white mt-3">Filtra per tipo:</h3>
             <select class="form-select">
                 <option selected value="1">Tutti i tipi</option>
-                <option value="1">ciao</option>
-                <option value="1">ciao</option>
-                <option value="1">ciao</option>
-                <option value="1">ciao</option>
-                <option value="1">ciao</option>
-                <option value="1">ciao</option>
-                <option value="1">ciao</option>
+                <option v-for="pokemonType in pokemonTypes">{{ pokemonType }}</option>
 
             </select>
         </main>
