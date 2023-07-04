@@ -2,7 +2,7 @@
 export default {
     props: {
         name: String,
-        number: String,
+        number: Number,
         type: String,
         imageUrl: String
     }

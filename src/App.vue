@@ -1,11 +1,13 @@
 <script>
 import AppCard from './components/AppCard.vue'
+import AppLoader from './components/AppLoader.vue'
 import axios from 'axios';
 import { store } from './data/store'
 
 export default {
     components: {
-        AppCard
+        AppCard,
+        AppLoader,
     },
     data() {
         return {
@@ -38,10 +40,8 @@ export default {
     <div class="main-container d-flex justify-content-center">
         <main>
             <div class="cards-container d-flex justify-content-center flex-wrap">
-                <h1 v-if="isLoaded === false" class="text-white">
-                    Loading...
-                </h1>
-                <div v-else v-for="pokemon in pokemons" :key="pokemon.number" class="card">
+                <AppLoader :isLoaded="isLoaded" />
+                <div v-for="pokemon in pokemons" :key="pokemon.number" class="card">
                     <AppCard :number="pokemon.number" :imageUrl="pokemon.imageUrl" :name="pokemon.name"
                         :type="pokemon.type1" />
                 </div>
