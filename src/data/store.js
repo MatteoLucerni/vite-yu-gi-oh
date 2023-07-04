@@ -5,7 +5,7 @@ export const store = reactive({
   pokemonTypes: [],
   pages: {
     prev: null,
-    next: 2,
+    next: null,
   },
   selectedType: '--',
 });

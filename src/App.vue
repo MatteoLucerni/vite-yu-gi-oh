@@ -18,7 +18,7 @@ export default {
             pokemons: store.pokemons,
             pokemonTypes: store.pokemonTypes,
             isLoaded: false,
-            endpoint: 'sort[number]=desc',
+            endpoint: 'sort[number]=asc',
             hasPrev: false,
             hasNext: false
         }
@@ -30,7 +30,7 @@ export default {
             this.pokemons = [];
 
             //tipi di endpoints
-            const filteredEndpoint = `eq[type1]=${value}&sort[number]=desc`
+            const filteredEndpoint = `eq[type1]=${value}&sort[number]=asc`
 
             const currentEndpoint = value === '--' ? this.endpoint : filteredEndpoint
 
@@ -71,12 +71,17 @@ export default {
                 }
             )
         },
+        // fetchNewPage(key) {                                         ?? non funziona ??
+        //     console.log(store.pages[key])
+        //     this.endpoint = `sort[number]=asc&page=${store.pages[key]}`
+        //     this.fetchPokemons(store.selectedType)
+        // },
         fetchNextPage() {
-            this.endpoint = `sort[number]=desc&page=${store.pages.next}`
+            this.endpoint = `sort[number]=asc&page=${store.pages.next}`
             this.fetchPokemons(store.selectedType)
         },
         fetchPrevPage() {
-            this.endpoint = `sort[number]=desc&page=${store.pages.prev}`
+            this.endpoint = `sort[number]=asc&page=${store.pages.prev}`
             this.fetchPokemons(store.selectedType)
         }
     },
@@ -102,7 +107,8 @@ export default {
             </div>
             <h3 class="text-white mt-3">Filtra per tipo:</h3>
             <AppSelect :pokemonTypes="pokemonTypes" @changedFilter="fetchPokemons" />
-            <AppPageChanger @changedPageNext="fetchNextPage" @changedPagePrev="fetchPrevPage" :hasNext="hasNext"
+            <h3 class="text-white text-center mt-3">Cambia pagina:</h3>
+            <AppPageChanger @changedPageNext="fetchNextPage(next)" @changedPagePrev="fetchPrevPage(prev)" :hasNext="hasNext"
                 :hasPrev="hasPrev" />
         </main>
     </div>

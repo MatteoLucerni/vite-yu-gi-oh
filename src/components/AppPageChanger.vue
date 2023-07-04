@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-    <div class="my-5 text-center">
+    <div class="mb-5 mt-3 text-center">
         <button v-if="hasPrev" class="btn" @click="$emit('changedPagePrev')">Precedente</button>
         <button v-if="hasNext" class="btn" @click="$emit('changedPageNext')">Successiva</button>
     </div>
