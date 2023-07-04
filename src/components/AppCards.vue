@@ -5,7 +5,8 @@ import { store } from '../data/store'
 export default {
     data() {
         return {
-            pokemons: store.pokemons
+            pokemons: store.pokemons,
+            isLoaded: false
         }
     },
     methods: {
@@ -17,8 +18,11 @@ export default {
                         this.pokemons.push(doc)
                     });
                     console.table(this.pokemons)
+                    console.log(this.pokemons.length)
+                    if (this.pokemons.length === 10) this.isLoaded = true;
                 }
             )
+
         }
     },
     created() {
@@ -28,7 +32,10 @@ export default {
 </script>
 
 <template>
-    <div v-for="pokemon in pokemons" class="card">
+    <h1 v-if="isLoaded === false" class="text-white">
+        Loading...
+    </h1>
+    <div v-else v-for="pokemon in pokemons" class="card">
         <div class="d-flex align-items-center flex-grow-1">
             <img :src="pokemon.imageUrl" :alt="pokemon.name">
         </div>
@@ -45,4 +52,8 @@ export default {
     </div>
 </template>
 
-<style></style>
+<style scoped>
+h1 {
+    font-size: 80px;
+}
+</style>
