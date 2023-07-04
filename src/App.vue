@@ -3,6 +3,7 @@ import AppCard from './components/AppCard.vue'
 import AppLoader from './components/AppLoader.vue'
 import AppSelect from './components/AppSelect.vue'
 import AppPageChanger from './components/AppPageChanger.vue'
+import AppSearchFilter from './components/AppSearchFilter.vue'
 import axios from 'axios';
 import { store } from './data/store'
 
@@ -12,6 +13,7 @@ export default {
         AppLoader,
         AppSelect,
         AppPageChanger,
+        AppSearchFilter
     },
     data() {
         return {
@@ -21,7 +23,6 @@ export default {
             endpoint: '',
             hasPrev: false,
             hasNext: false,
-            userFilter: ''
         }
     },
     methods: {
@@ -58,7 +59,7 @@ export default {
                         )
                     });
                     // rimozione loader
-                    if (this.pokemons.length >= 10) this.isLoaded = true;
+                    if (this.pokemons.length >= 1) this.isLoaded = true;
                 }
             )
 
@@ -84,6 +85,11 @@ export default {
         fetchPrevPage() {
             this.endpoint = `&page=${store.pages.prev}`
             this.fetchPokemons(store.selectedType)
+        },
+        fetchByName(value) {
+            this.endpoint = `&q[name]=${value}`
+            this.fetchPokemons(store.selectedType)
+            console.log('used end: ' + value)
         }
     },
     created() {
@@ -109,8 +115,9 @@ export default {
             <h3 class="text-white mt-3">Filtra per tipo:</h3>
             <AppSelect :pokemonTypes="pokemonTypes" @changedFilter="fetchPokemons" />
             <h3 class="text-white text-center mt-3">Cambia pagina:</h3>
-            <AppPageChanger @changedPageNext="fetchNextPage(next)" @changedPagePrev="fetchPrevPage(prev)" :hasNext="hasNext"
+            <AppPageChanger @changedPageNext="fetchNextPage" @changedPagePrev="fetchPrevPage" :hasNext="hasNext"
                 :hasPrev="hasPrev" />
+            <AppSearchFilter @modifiedFilter="fetchByName" />
         </main>
     </div>
 </template>

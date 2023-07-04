@@ -8,4 +8,5 @@ export const store = reactive({
     next: null,
   },
   selectedType: '--',
+  userFilter: '',
 });
