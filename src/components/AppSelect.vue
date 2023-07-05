@@ -9,11 +9,12 @@ export default {
             selectedType: store.selectedType
         }
     },
+    emits: ['changed-filter']
 }
 </script>
 
 <template>
-    <select class="form-select" v-model="selectedType" @change="$emit('changedFilter', this.selectedType)">
+    <select class="form-select" v-model="selectedType" @change="$emit('changed-filter', this.selectedType)">
         <option selected>--</option>
         <option v-for="pokemonType in pokemonTypes">{{ pokemonType }}
         </option>

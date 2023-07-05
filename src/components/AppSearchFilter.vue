@@ -6,7 +6,8 @@ export default {
         return {
             userFilter: store.userFilter
         }
-    }
+    },
+    emits: ['modified-filter']
 }
 </script>
 
@@ -15,7 +16,7 @@ export default {
         <label class="text-white fs-3 fw-bold" for="search">
             Filtra per nome:
         </label>
-        <input @keyup="$emit('modifiedFilter', this.userFilter)" v-model.trim="userFilter" id="search" class="form-control"
+        <input @keyup="$emit('modified-filter', this.userFilter)" v-model.trim="userFilter" id="search" class="form-control"
             type="text" placeholder="Cerca...">
     </div>
 </template>

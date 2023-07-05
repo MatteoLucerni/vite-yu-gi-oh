@@ -75,17 +75,9 @@ export default {
                 }
             )
         },
-        // fetchNewPage(key) {                                         ?? non funziona ??
-        //     console.log(store.pages[key])
-        //     this.endpoint = `&page=${store.pages[key]}`
-        //     this.fetchPokemons(store.selectedType)
-        // },
-        fetchNextPage() {
-            this.endpoint = `&page=${store.pages.next}`
-            this.fetchPokemons(store.selectedType)
-        },
-        fetchPrevPage() {
-            this.endpoint = `&page=${store.pages.prev}`
+        fetchNewPage(key) {
+
+            this.endpoint = `&page=${store.pages[key]}`
             this.fetchPokemons(store.selectedType)
         },
         // textFilter Endpoint
@@ -118,13 +110,12 @@ export default {
             </div>
             <!-- Filtro select per tipo -->
             <h3 class="text-white mt-3">Filtra per tipo:</h3>
-            <AppSelect :pokemonTypes="pokemonTypes" @changedFilter="fetchPokemons" />
+            <AppSelect :pokemon-types="pokemonTypes" @changed-filter="fetchPokemons" />
             <!-- Pulsanti cambio pagina -->
             <h3 class="text-white text-center mt-3">Cambia pagina:</h3>
-            <AppPageChanger @changedPageNext="fetchNextPage" @changedPagePrev="fetchPrevPage" :hasNext="hasNext"
-                :hasPrev="hasPrev" />
+            <AppPageChanger @changed-page="fetchNewPage" :has-next="hasNext" :has-prev="hasPrev" />
             <!-- filtro con input text -->
-            <AppSearchFilter @modifiedFilter="fetchByName" />
+            <AppSearchFilter @modified-filter="fetchByName" />
         </main>
     </div>
 </template>
