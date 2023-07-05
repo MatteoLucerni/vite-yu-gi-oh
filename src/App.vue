@@ -26,15 +26,15 @@ export default {
         }
     },
     methods: {
-        fetchPokemons(value) {
+        fetchPokemons(type) {
             // reset
             this.isLoaded = false
             this.pokemons = [];
 
             //tipi di endpoints
-            const filteredEndpoint = `&eq[type1]=${value}`
+            const filteredEndpoint = `&eq[type1]=${type}`
 
-            const currentEndpoint = value === '--' ? this.endpoint : filteredEndpoint
+            const currentEndpoint = type === '--' ? this.endpoint : filteredEndpoint
 
             // chiamata
             axios.get(`https://41tyokboji.execute-api.eu-central-1.amazonaws.com/dev/api/v1/pokemons?sort[number]=asc${currentEndpoint}`).then(
