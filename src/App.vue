@@ -60,7 +60,7 @@ export default {
                         )
                     });
                     // rimozione loader
-                    if (this.pokemons.length >= 1) this.isLoaded = true;
+                    if (this.pokemons.length) this.isLoaded = true;
                 }
             )
 
